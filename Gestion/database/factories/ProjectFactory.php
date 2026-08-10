@@ -20,7 +20,7 @@ class ProjectFactory extends Factory
         return [
             'created_by'=>User::factory(),
             'name'=>fake()->sentence(3),
-            'dscription'=>fake()->paragraph(),
+            'description'=>fake()->paragraph(),
         ];
     }
 }

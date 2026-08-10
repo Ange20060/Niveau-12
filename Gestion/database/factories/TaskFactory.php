@@ -4,12 +4,14 @@ namespace Database\Factories;
 
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @extends Factory<Task>
  */
 class TaskFactory extends Factory
 {
+  use HasFactory;
     /**
      * Define the model's default state.
      *

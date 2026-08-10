@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Termwind\Components\Paragraph;
 
 /**
@@ -12,6 +13,7 @@ use Termwind\Components\Paragraph;
  */
 class CommentFactory extends Factory
 {
+  use HasFactory;
     /**
      * Define the model's default state.
      *
@@ -20,7 +22,7 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            'task_is'=>Task::factory(),
+            'task_id'=>Task::factory(),
             'user_id'=>User::factory(),
             'description'=>fake()->paragraph(),
         ];
