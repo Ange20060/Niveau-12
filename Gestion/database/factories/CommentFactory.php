@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\Comment;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Termwind\Components\Paragraph;
 
 /**
  * @extends Factory<Comment>
@@ -18,7 +20,9 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'task_is'=>Task::factory(),
+            'user_id'=>User::factory(),
+            'description'=>fake()->paragraph(),
         ];
     }
 }
