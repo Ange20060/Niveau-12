@@ -4,12 +4,29 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
+use Dom\Comment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
+  public function createdProjects(): HasMany
+  {
+    return $this->hasMany(Project::class, 'created_by');
+  }
+
+  public function projects(): BelongsToMany
+  {
+    return $this->belongsToMany(Project::class);
+  }
+
+  public function comments(): HasMany
+  {
+    return $this->hasMany(Comment::class);
+  }
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
