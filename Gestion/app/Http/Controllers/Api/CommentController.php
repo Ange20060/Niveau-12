@@ -37,7 +37,7 @@ class CommentController extends Controller
         $comment = $this->commentService->create([
             'task_id' => $task->id,
             'user_id' => $request->user()->id,
-            'content' => $request->validated()['content'],
+            'description' => $request->validated()['description'],
         ]);
 
         return (new CommentResource($comment))

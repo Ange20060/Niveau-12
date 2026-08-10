@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Http\Resources\ProjectResource;
 use App\Services\ProjectService;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 
 class ProjectController extends Controller
@@ -31,10 +32,12 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(FormRequest $request)
+    public function store(CreateProjectRequest $request)
     {
       $project = $this->projectService->create(
-        $request->validated()
+        array_merge($request->validated(), [
+          'created_by' => $request->user()->id,
+        ])
       );
 
       return (new ProjectResource($project))
