@@ -9,20 +9,20 @@ use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
-{
+  public function login(Request $request)
+  {
     $user = User::where('email', $request->email)->first();
 
     if (!$user || !Hash::check($request->password, $user->password)) {
-        return response()->json([
-            'message' => 'Identifiants incorrects',
-        ], 401);
+      return response()->json([
+        'message' => 'Identifiants incorrects',
+      ], 401);
     }
 
     $token = $user->createToken('api-token')->plainTextToken;
 
     return response()->json([
-        'token' => $token,
+      'token' => $token,
     ]);
-}
+  }
 }

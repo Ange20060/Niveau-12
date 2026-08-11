@@ -11,10 +11,8 @@ class CommentService
         return Comment::create($data);
     }
 
-    public function update(
-        Comment $comment,
-        array $data
-    ): Comment {
+    public function update(Comment $comment,array $data): Comment
+    {
         $comment->update($data);
 
         return $comment->refresh();

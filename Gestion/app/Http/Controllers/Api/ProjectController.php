@@ -32,7 +32,7 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateProjectRequest $request)
+     public function store(CreateProjectRequest $request)
     {
       $project = $this->projectService->create(
         array_merge($request->validated(), [

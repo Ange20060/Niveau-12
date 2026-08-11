@@ -38,7 +38,7 @@ class TaskController extends Controller
     ) {
         $task = $this->taskService->create([
             'project_id' => $project->id,
-            ...$request->validated(),
+             $request->validated(),
         ]);
 
         return (new TaskResource($task))
@@ -58,9 +58,7 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update( UpdateTaskRequest $request,
-        Task $task
-    ) {
+    public function update( UpdateTaskRequest $request,Task $task) {
         $task = $this->taskService->update(
             $task,
             $request->validated()
