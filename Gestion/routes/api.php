@@ -1,14 +1,11 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\CommentController;
-
-Route::get('/user', function (Request $request) {
-  return $request->user();
-})->middleware('auth:sanctum');
 
 Route::get('/test', function () {
   return response()->json([
@@ -16,31 +13,24 @@ Route::get('/test', function () {
   ]);
 });
 
-Route::apiResource('projects', ProjectController::class);
+// Auth (public)
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::apiResource('projects.tasks', TaskController::class)
-  ->only([
-    'index',
-    'store',
-  ]);
+// Protected API routes (require Sanctum token)
+Route::middleware('auth:sanctum')->group(function () {
+  Route::get('/user', function (Request $request) {
+    return $request->user();
+  });
 
-Route::apiResource('tasks.comments', CommentController::class)
-  ->only([
-    'index',
-    'store',
-  ]);
-Route::apiResource('comments', CommentController::class)
-  ->only([
+  Route::apiResource('projects', ProjectController::class);
+
+  Route::apiResource('projects.tasks', TaskController::class);
+
+  Route::apiResource('tasks.comments', CommentController::class);
+
+  Route::apiResource('comments', CommentController::class)->only([
     'show',
     'update',
     'destroy',
   ]);
-
-Route::middleware('auth:sanctum')->group(function () {
-
-  Route::apiResource('projects', ProjectController::class);
-
-  Route::apiResource('tasks', TaskController::class);
-
-  Route::apiResource('comments', CommentController::class);
 });

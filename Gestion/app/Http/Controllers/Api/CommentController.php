@@ -9,14 +9,17 @@ use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Task;
 use App\Services\CommentService;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CommentController extends Controller
 {
+  use AuthorizesRequests;
+
   public function __construct(
     private CommentService $commentService
   ) {
   }
-  
+
     /**
      * Display a listing of the resource.
      */
@@ -57,10 +60,10 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCommentRequest $request,
-        Comment $comment
-    ) {
-        $comment = $this->commentService->update(
+    public function update(UpdateCommentRequest $request,Comment $comment)
+    {
+       $this->authorize('update', $comment);
+       $comment = $this->commentService->update(
             $comment,
             $request->validated()
         );
@@ -73,6 +76,7 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        $this->authorize('delete',$comment);
         $this->commentService->delete($comment);
 
         return response()->noContent();

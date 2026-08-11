@@ -10,9 +10,11 @@ use App\Models\Task;
 use App\Models\Project;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TaskController extends Controller
 {
+  use AuthorizesRequests;
   public function __construct(
     private TaskService $taskService
   )
@@ -23,7 +25,7 @@ class TaskController extends Controller
      */
      public function index(Project $project)
      {
-         $task = $project->task()
+         $task = $project->tasks()
         ->latest()
         ->paginate(10);
 
@@ -36,10 +38,11 @@ class TaskController extends Controller
     public function store(StoreTaskRequest $request,
         Project $project
     ) {
-        $task = $this->taskService->create([
+        $data = array_merge($request->validated(), [
             'project_id' => $project->id,
-             $request->validated(),
         ]);
+
+        $task = $this->taskService->create($data);
 
         return (new TaskResource($task))
             ->response()
@@ -59,12 +62,13 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      */
     public function update( UpdateTaskRequest $request,Task $task) {
-        $task = $this->taskService->update(
-            $task,
-            $request->validated()
-        );
+        $this->authorize('update',$task);
 
-        return new TaskResource($task);
+        $task = $this->taskService->update(
+          $task,
+          $request->validated()
+        );
+      return new TaskResource($task);
     }
 
     /**
@@ -72,6 +76,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        $this->authorize('delete', $task);
+
         $this->taskService->delete($task);
 
         return response()->noContent();

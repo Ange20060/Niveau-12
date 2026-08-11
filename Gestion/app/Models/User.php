@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Dom\Comment;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
+  use HasApiTokens,HasFactory,Notifiable;
+
   public function createdProjects(): HasMany
   {
     return $this->hasMany(Project::class, 'created_by');
@@ -28,8 +31,6 @@ class User extends Authenticatable
     return $this->hasMany(Comment::class);
   }
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *

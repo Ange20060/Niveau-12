@@ -15,7 +15,8 @@ class CommentApiTest extends TestCase
 
     public function test_un_utilisateur_peut_lister_les_commentaires_d_une_tache(): void
     {
-        $user = User::factory()->create();
+        /** @var User $user */
+        $user = User::factory()->createOne();
 
         $project = Project::factory()->create([
             'created_by' => $user->id,
@@ -49,7 +50,8 @@ class CommentApiTest extends TestCase
 
     public function test_un_utilisateur_peut_creer_un_commentaire(): void
     {
-        $user = User::factory()->create();
+        /** @var User $user */
+        $user = User::factory()->createOne();
 
         $project = Project::factory()->create([
             'created_by' => $user->id,
@@ -75,7 +77,8 @@ class CommentApiTest extends TestCase
 
     public function test_un_commentaire_sans_contenu_est_refuse(): void
     {
-        $user = User::factory()->create();
+        /** @var User $user */
+        $user = User::factory()->createOne();
 
         $project = Project::factory()->create([
             'created_by' => $user->id,
