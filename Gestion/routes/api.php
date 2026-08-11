@@ -18,6 +18,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // Protected API routes (require Sanctum token)
 Route::middleware('auth:sanctum')->group(function () {
+
   Route::get('/user', function (Request $request) {
     return $request->user();
   });
@@ -25,6 +26,12 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::apiResource('projects', ProjectController::class);
 
   Route::apiResource('projects.tasks', TaskController::class);
+  
+  Route::apiResource('tasks', TaskController::class)->only([
+      'show',
+      'update',
+      'destroy',
+  ]);
 
   Route::apiResource('tasks.comments', CommentController::class);
 

@@ -14,6 +14,7 @@ class TaskApiTest extends TestCase
 
     public function test_un_utilisateur_authentifie_peut_lister_les_taches_d_un_projet(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         $project = Project::factory()->create([
@@ -44,6 +45,7 @@ class TaskApiTest extends TestCase
 
     public function test_un_utilisateur_authentifie_peut_creer_une_tache(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         $project = Project::factory()->create([
@@ -68,6 +70,7 @@ class TaskApiTest extends TestCase
 
     public function test_une_tache_sans_titre_est_refusee(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         $project = Project::factory()->create([
@@ -89,6 +92,7 @@ class TaskApiTest extends TestCase
 
     public function test_une_tache_peut_etre_modifiee(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         $project = Project::factory()->create([
@@ -115,6 +119,7 @@ class TaskApiTest extends TestCase
 
     public function test_une_tache_peut_etre_supprimee(): void
     {
+        /** @var User $user */
         $user = User::factory()->create();
 
         $project = Project::factory()->create([
@@ -126,7 +131,7 @@ class TaskApiTest extends TestCase
         ]);
 
         $response = $this->actingAs($user)
-            ->deleteJson("/api/tasks/{$task->id}");
+            ->deleteJson('/api/tasks/'.$task->id);
 
         $response->assertStatus(204);
 
